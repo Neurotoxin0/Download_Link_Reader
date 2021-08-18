@@ -5,7 +5,7 @@ os.chdir(path)
 out = open("output.txt", "a")
 
 
-keyword = ["ed2k","magnet:","http://"]                  # keywork for download link
+keyword = ["ed2k","magnet:","http://"]                  # keyword for download link
 ignore_list = ["output.txt"]                            # ignore txt file with certain names
 
 
