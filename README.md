@@ -18,5 +18,7 @@
 - 目前支持并通过测试的功能 | Supported & Tested Features: 
     * 自动解压脚本所在目录下单层压缩的ZIP压缩包 | Auto unzip single-zipped "zip" file in working dir (where the script is located)
     * 遍历脚本所在目录以及子目录下的文件 | Walkthrough dirs and sub-dirs in working dir
-+ 未来的待办功能 | Future Plans:
-    * 支持多层压缩的压缩包 | multi-zipped "zip" file
+    * 输出所有下载链接到output.txt | write all links founded into output.txt
+    * 去除输出文件中多余的空行 | strip empty line from output file
+    * 忽略列表 | Ignore List
+    * 输出文件中使用时间戳分割 | Using time stamp to seperate each run
