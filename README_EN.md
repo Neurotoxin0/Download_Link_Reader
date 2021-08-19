@@ -9,7 +9,7 @@
 
 [![Issue Welcome][1]][2]
 [![PRs Welcome][3]][4]
-[中文版](https://github.com/Neurotoxin0/Download_Link_Reader/blob/main/README_EN.md "中文版")
+- [中文版](https://github.com/Neurotoxin0/Download_Link_Reader/blob/main/README_EN.md "中文版")
 
 ----
 
@@ -25,4 +25,4 @@
     * Add support for files with Chinese character(UTF-8)
     * Detailed Log on which zip files and txt files were processed or ignored
     * Detailed CLI added
-    * Seperate Chinese / English version
+    * Separate Chinese / English version

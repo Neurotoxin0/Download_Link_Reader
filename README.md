@@ -9,7 +9,7 @@
 
 [![欢迎发Issue][1]][2]
 [![欢迎Pull Request][3]][4]
-[English Version](https://github.com/Neurotoxin0/Download_Link_Reader/blob/main/README_EN.md "English Version")
+- [English Version](https://github.com/Neurotoxin0/Download_Link_Reader/blob/main/README_EN.md "English Version")
 
 ----
 
