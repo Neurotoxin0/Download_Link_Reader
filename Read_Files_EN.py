@@ -31,7 +31,7 @@ Current ignored contents: " + str(ignore_content) + "\n\
             ")
         print("\
 Command Options: \n\
-    0\tProceed with default\n\
+    0\tExecuting\n\
     1\tEdit keyword for download link\n\
     2\tAdd dir that need to be ignored\n\
     3\tAdd file name that need to be ignored\n\
@@ -40,7 +40,7 @@ Command Options: \n\
             ")
         cmd = input("Please input command: ")
 
-        # Default Setting
+        # Executing
         if cmd == "0":
             os.system('cls')
             unzip()
