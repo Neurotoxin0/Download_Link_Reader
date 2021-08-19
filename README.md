@@ -24,5 +24,5 @@
     * 输出文件中使用时间戳分割 | Use time stamp to separate each run
     * 计数器：处理的文件数量 + 找到的链接数量 | Counter: processed file + links found
     * 支持处理带中文的文件(UTF-8) | Add support for files with Chinese character(UTF-8)
-    * 详细的日志：压缩包和文件被处理或忽略 | Detailed Log on which zip files and txt files were processed or ignore
+    * 详细的日志：压缩包和文件被处理或忽略 | Detailed Log on which zip files and txt files were processed or ignored
 
