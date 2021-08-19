@@ -1,8 +1,9 @@
+# 待办:
 # 移动完成文件到 archive
 # process 忽略 archive 文件夹
-# 融合unzip, process, etc.
 # 输出log
 # 保存配置
+# RAR, 7z, tar, gz支持
 # finished:
 
 
@@ -20,7 +21,7 @@ if __name__ == '__main__':
             ")
         
         cmd = input(">")
-        
+
         if cmd == "1":
             import Read_Files_CN
             Read_Files_CN.CLI()
