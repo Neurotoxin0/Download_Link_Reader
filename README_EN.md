@@ -25,4 +25,6 @@
     * Add support for files with Chinese character(UTF-8)
     * Detailed Log on which zip files and txt files were processed or ignored
     * Detailed CLI added
-    * Separate Chinese / English version
+    * Language Support: Chinese & English
+    * Auto Archive Processed Files
+    * Add Support For RAR File(Manually Install RAR Scripts to Python)
