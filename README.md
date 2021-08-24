@@ -32,7 +32,7 @@
 ----
 
 #### 脚本样张:
-![主菜单](Samples/主菜单 & Main Menu.png)
-![中文版菜单](Samples/中文版菜单.png)
-![中文版日志](Samples/中文版日志.png)
-![输出文件](Samples/输出文件 & Output File.png)
+![主菜单](Samples/Main_Menu.png)
+![中文版菜单](Samples/Menj_CN.png)
+![中文版日志](Samples/Log_CN.png)
+![输出文件](Samples/Output.png)

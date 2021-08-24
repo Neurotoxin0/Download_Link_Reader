@@ -32,7 +32,7 @@
 ----
 
 #### Sample:
-![Main_Menu](Samples/主菜单 & Main Menu.png)
+![Main_Menu](Samples/Main_Menu.png)
 ![Menu](Samples/Menu_EN.png)
 ![Log](Samples/Log_EN.png)
-![Output](Samples/输出文件 & Output File.png)
+![Output](Samples/Output.png)
