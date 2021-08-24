@@ -36,7 +36,7 @@
 ![主菜单](Samples/Main_Menu.jpg)
 
 - 中文版菜单：
-![中文版菜单](Samples/Menj_CN.jpg)
+![中文版菜单](Samples/Menu_CN.jpg)
 
 - 中文版日志：
 ![中文版日志](Samples/Log_CN.jpg)
