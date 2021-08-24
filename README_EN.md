@@ -32,14 +32,14 @@
 ----
 
 #### Sample:
-- Main Menu:
-![Main_Menu](Samples/Main_Menu.jpg)
++ Main Menu:
+- ![Main_Menu](Samples/Main_Menu.jpg)
 
-- Menu:
-![Menu](Samples/Menu_EN.jpg)
++ Menu:
+- ![Menu](Samples/Menu_EN.jpg)
 
-- Log:
-![Log](Samples/Log_EN.jpg)
++ Log:
+- ![Log](Samples/Log_EN.jpg)
 
-- Output:
-![Output](Samples/Output.jpg)
++ Output:
+- ![Output](Samples/Output.jpg)
