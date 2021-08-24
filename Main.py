@@ -1,9 +1,7 @@
 # 待办:
-# 移动完成文件到 archive
 # 输出log
-# 保存配置
-# RAR, 7z, tar, gz支持
-# finished:全局忽略 archive, __pycache__ 文件夹
+# 优化归档，Fix空文件夹驻留
+# finished:
 
 
 import os, sys, shutil
@@ -25,8 +23,8 @@ if __name__ == "__main__":
         lan = input(">")
 
         if lan not in ["1", "2", "3", "debug"]:
-            print("\n-------------------------\n无效选项 | Invalid Command", end = '')
-            input("按任意键来返回 | Press Any Key To Go Back")
+            print("\n------------------------- 无效选项 | Invalid Command -------------------------\n")
+            input("> 按任意键来返回 | Press Any Key To Go Back")
         else:
             if lan == "1" or lan == "2":
                 import Read_Files
@@ -42,9 +40,10 @@ if __name__ == "__main__":
                 try:        
                     import Test 
                     Test.main()
-                except:     print("\n-------------------------\nDebug Module Missing\n-------------------------\n")
-                else:       print("\n-------------------------\nSuccess\n-------------------------\n")
-                finally:    input("按任意键来返回 | Press Any Key To Go Back"); continue
+                    shutil.rmtree("__pycache__")
+                except:     print("\n------------------------- Debug Module Missing -------------------------\n")
+                else:       print("\n------------------------- Success -------------------------\n")
+                finally:    input("> 按任意键来返回 | Press Any Key To Go Back"); continue
             # ------------------------- END -------------------------      
 
             break
