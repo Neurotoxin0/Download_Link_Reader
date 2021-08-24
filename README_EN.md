@@ -32,7 +32,7 @@
 ----
 
 #### Sample:
-![Main_Menu](Samples/Main_Menu.png)
-![Menu](Samples/Menu_EN.png)
-![Log](Samples/Log_EN.png)
-![Output](Samples/Output.png)
+![Main_Menu](Samples/Main_Menu.jpg)
+![Menu](Samples/Menu_EN.jpg)
+![Log](Samples/Log_EN.jpg)
+![Output](Samples/Output.jpg)
