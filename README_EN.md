@@ -28,3 +28,11 @@
     * Language Support: Chinese & English
     * Auto Archive Processed Files
     * Add Support For RAR File(Manually Install RAR Scripts to Python)
+
+----
+
+#### Sample:
+![Main_Menu](Samples/主菜单 & Main Menu.png)
+![Menu](Samples/Menu_EN.png)
+![Log](Samples/Log_EN.png)
+![Output](Samples/输出文件 & Output File.png)

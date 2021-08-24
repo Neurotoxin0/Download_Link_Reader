@@ -28,3 +28,11 @@
     * 语言选项: 中&英
     * 自动归档处理完成的文件
     * 添加 RAR 文件支持 (需要手动安装RAR包至Python)
+
+----
+
+#### 脚本样张:
+![主菜单](Samples/主菜单 & Main Menu.png)
+![中文版菜单](Samples/中文版菜单.png)
+![中文版日志](Samples/中文版日志.png)
+![输出文件](Samples/输出文件 & Output File.png)
