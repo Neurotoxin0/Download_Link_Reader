@@ -1,7 +1,7 @@
 # 待办:
-# 输出log
 # 优化归档，Fix空文件夹驻留
-# finished:
+# Debug 信息
+# finished: 输出log
 
 
 import os, sys, shutil

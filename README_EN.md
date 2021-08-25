@@ -23,7 +23,7 @@
     * Use time stamp to separate each run
     * Counter: processed file + links found
     * Add support for files with Chinese character(UTF-8)
-    * Detailed Log on which zip files and txt files were processed or ignored
+    * Detailed Log(CLI and Log file) on which zip files and txt files were processed or ignored
     * Detailed CLI added
     * Language Support: Chinese & English
     * Auto Archive Processed Files
