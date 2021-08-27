@@ -1,3 +1,4 @@
+# /usr/bin/python
 import os, shutil, time, zipfile, tarfile, json, logging
 from logging import handlers
 
@@ -8,18 +9,20 @@ Archived = "Archived"                                   # 归档文件夹名称 
 Zip_Folder = "Zip_Files"                                # 处理过的压缩文件存放的文件夹名称 | Folder Name For Processed Zips
 File_Folder = "Processed_Files"                         # 处理过的文件存放的文件夹名称 | Folder Name For Processed Files
 Keyword = ["ed2k://", "magnet:"]                        # 下载链接关键字 | keyword for download link
-Ignore_dir = [Archived, "Log", "__pycache__"]           # 忽略的文件夹 | ignore certain dirs
-Ignore_file = [Output, "config.json"]                   # 忽略的文件 | ignore txt files with certain names
+Ignore_dir = ["Working_Dir", "Archived"]                # 忽略的文件夹 | ignore certain dirs
+Ignore_file = [Output]                                  # 忽略的文件 | ignore txt files with certain names
 Ignore_content = []                                     # 忽略的内容 | ignore certain contents
 RAR_Support = False                                     # RAR 支持
 Debug = False                                           # Debug 模式
 # =================================================================
 
 # Env & Vars
+Config_Exist = True
 File_Count, Link_Count = 0, 0
 Time = time.strftime("%Y.%m.%d@%H_%M_%S", time.localtime())   
 Path = (os.path.split(os.path.realpath(__file__))[0] + "/").replace("\\\\", "/").replace("\\", "/")
-Archived_Dir = Path + Archived + "/"
+Working_Path = Path.replace("/Working_Dir/", "/")
+Archived_Dir = Working_Path + Archived + "/"
 Zip_Dir = Archived_Dir + Zip_Folder + "/"
 File_Dir = Archived_Dir + File_Folder + "/"
 os.chdir(Path)               
@@ -48,10 +51,13 @@ class Logger(object):
         self.logger.addHandler(LOG)
 
 # Output & Log
-Out = open(Output, "a", encoding = 'utf-8')
+Out = open("../" + Output, "a", encoding = 'utf-8')
 if not os.path.exists("Log"): os.makedirs("Log")
+
 try: tmp = open("config.json", "r", encoding='utf-8')
-except: pass
+except: 
+    Config_Exist = False; 
+    pass
 else:
     Debug = json.loads(tmp.readlines()[0])['Debug Mode']
     tmp.close()
@@ -63,11 +69,12 @@ else:       Log = Logger("Log/" + Time + ".log")
 # CLI
 def CLI(lan):
     # Read Config
-    Log.logger.info(["是否读取配置文件?", "Continue with local config?"][lan] + " (y/n)\n> ")
-    conf = Read()
+    if Config_Exist:
+        Log.logger.info(["是否读取配置文件?", "Continue with local config?"][lan] + " (y/n) (" + ["默认: ", "Default: "][lan] + "y)\n> ")
+        conf = Read()
     
-    if conf == "y": Load(lan)
-    else:           pass
+        if conf == "n": pass
+        else: Load(lan)
 
     # 添加时间戳到输出文件 | Add time stamp to output.txt
     Out.writelines("################################################## ")
@@ -98,7 +105,7 @@ def CLI(lan):
     "6\t" + ["储存&目录设置", "Archive & Dir Setting"][lan] + " (!)\n" + \
     "7\t" + ["清除本地配置文件", "Remove local config file"][lan] + "\n" + \
     "8\t" + ["切换 Debug 模式", "Switch Debug Mode"][lan] + "\n" + \
-    "0\t" + ["结束脚本", "End Script"][lan] + "\n"  \
+    "0\t" + ["保存并退出", "Save and Exit"][lan] + "\n"  \
             )
         
         Log.logger.info(["> 请输入命令: ", "> Please input command: "][lan])
@@ -128,7 +135,7 @@ def CLI(lan):
                 Log.logger.info(["> 请输入命令: ", "> Please input command: "][lan])
                 cmd = Read()
 
-                if cmd == "3":  Save(); break
+                if cmd == "3":  Save(lan); break
                 else:
                     if not (cmd == "1" or cmd == "2"): 
                         Log.logger.info("\n------------------------- " + ["无效命令", "Invalid Command"][lan] + " -------------------------\n")
@@ -164,7 +171,7 @@ def CLI(lan):
                 Log.logger.info(["> 请输入命令: ", "> Please input command: "][lan])
                 cmd = Read()
 
-                if cmd == "3":  Save(); break
+                if cmd == "3":  Save(lan); break
                 else:
                     if not (cmd == "1" or cmd == "2"): 
                         Log.logger.info("\n------------------------- " + ["无效命令", "Invalid Command"][lan] + " -------------------------\n")
@@ -200,7 +207,7 @@ def CLI(lan):
                 Log.logger.info(["> 请输入命令: ", "> Please input command: "][lan])
                 cmd = Read()
                 
-                if cmd == "3":  Save(); break
+                if cmd == "3":  Save(lan); break
                 else:
                     if not (cmd == "1" or cmd == "2"): 
                         Log.logger.info("\n------------------------- " + ["无效命令", "Invalid Command"][lan] + " -------------------------\n")
@@ -236,7 +243,7 @@ def CLI(lan):
                 Log.logger.info(["> 请输入命令: ", "> Please input command: "][lan])
                 cmd = Read()
                 
-                if cmd == "3":  Save(); break
+                if cmd == "3":  Save(lan); break
                 else:
                     if not (cmd == "1" or cmd == "2"): 
                         Log.logger.info("\n------------------------- " + ["无效命令", "Invalid Command"][lan] + " -------------------------\n")
@@ -275,7 +282,7 @@ def CLI(lan):
             
             while True:
                 os.system('cls')
-                
+
                 Log.logger.info(\
 "\n------------------------- " + ["储存&目录设置", "Archive & Dir Setting"][lan] + " -------------------------\n\n" + \
 ["当前输出文件名称: ", "Current name for output file: "][lan] + Output + "\n" + \
@@ -293,14 +300,13 @@ def CLI(lan):
     "3\t" + ["处理压缩文件存档点名称", "Edit processed zips' folder name"][lan] + "\n" + \
     "4\t" + ["处理文件存档点名", "Edit processed files' folder name"][lan] + "\n" + \
     "5\t" + ["保存并退出脚本", "Save Changes and EXIT"][lan] + "\n" + \
-    "6\t" + ["返回菜单", "Back to menu"] \
-                    )
-                
+    "6\t" + ["返回菜单", "Back to menu"][lan] \
+                                )
                 Log.logger.info(["> 请输入命令: ", "> Please input command: "][lan])
                 cmd = Read()
                 
                 
-                if cmd == "5":  Save(); return 
+                if cmd == "5":  Save(lan); return 
                 elif cmd == "6": break
                 else:
                     if cmd not in ["1", "2", "3", "4"]: 
@@ -368,7 +374,7 @@ def CLI(lan):
                     Log.logger.info(["删除失败, 可能原因: 配置文件被占用或不存在", "Failed to delete, possible reason: file is being used or do not exist"][lan])
                     pass
                 
-                Back(lan) 
+                return 0
 
         # Debug 模式 | Debug Mode
         elif cmd == "8":
@@ -381,7 +387,7 @@ def CLI(lan):
             else:         Debug = False
 
         # 结束脚本 | End script
-        elif cmd == "0": return            
+        elif cmd == "0": Save(lan); return            
 
         # Catch
         else: 
@@ -389,17 +395,16 @@ def CLI(lan):
             Back(lan)
 
         # Save Config After Each Round
-        Save()  
+        Save(lan)  
 
 
 # 处理压缩文件 | Process Zip File
 def Unzip(lan):
     Log.logger.info("\n========================= " + ["解压", "Unzip "][lan] + " =========================")
-    if not os.path.exists(Archived_Dir): os.makedirs(Archived_Dir)
+    #if not os.path.exists(Archived_Dir): os.makedirs(Archived_Dir)
     if not os.path.exists(Zip_Dir): os.makedirs(Zip_Dir)
     
-    for root, dirs, files in os.walk(Path):
-        
+    for root, dirs, files in os.walk(Working_Path):    
         for file in files:
             if any(key if key in root else False for key in Ignore_dir): continue
             else: os.chdir(root)
@@ -416,8 +421,9 @@ def Unzip(lan):
                     if RAR_Support:
                         import rarfile 
                         tmp = rarfile.RarFile(file)
+                    else: Log.logger.info(["RAR支持未开启", "RAR Support is set to False"][lan])
                 # GZ / 7z File
-                else:   Log.logger.info(["需要手动解压", "Manual Unzip Action Required"][lan] + "\t")
+                else:   Log.logger.info(["需要手动解压", "Manual Unzip Action Required"][lan])
             
                 try:  
                     tmp.extractall()
@@ -427,7 +433,7 @@ def Unzip(lan):
                     Log.logger.info(["成功", "Success"][lan])
                     try: shutil.move(file, Zip_Dir)
                     except: pass
-    Log.logger.info("========================= " + ["完成", "Finish"][lan] + " =========================\n\n")
+    Log.logger.info("\n========================= " + ["完成", "Finish"][lan] + " =========================\n\n")
 
 
 # 处理文件 | Process Files
@@ -436,18 +442,17 @@ def Process(lan):
     global File_Count
     if not os.path.exists(File_Dir): os.makedirs(File_Dir)
     
-    for root, dirs, files in os.walk(Path):
+    for root, dirs, files in os.walk(Working_Path):
 
         for file in files:
             if any(key if key in root else False for key in Ignore_dir): continue
             else: os.chdir(root)
             
             if file.endswith('.txt'):
-                Log.logger.info(["\n处理文件: ", "Processing File: "][lan] + file)
+                Log.logger.info(["\n处理文件: ", "Processing File: "][lan] + file + "\n")
                 
-                if file in Ignore_file: Log.logger.info(["忽略", "Ignore"][lan])
+                if file in Ignore_file: Log.logger.info(["忽略", "Ignore"][lan] + "\n")
                 else:
-                    Log.logger.info(["已处理", "Processed"][lan])
                     File_Count += 1
                     Search(file)
                     try: shutil.move(file, File_Dir)
@@ -473,24 +478,34 @@ def Search(txt_file):
     tmp.close()
 
 
+# 清除空文件夹 | rm empty folders
 def Rmdirs(lan):
-    Log.logger.info("=============== " + ["删除空文件夹以及缓存文件", "Deleting Empty Dirs&Caches"][lan] + " ===============")
-    for item in os.listdir(Path):
-        tmp = Path + item
+    Log.logger.info("===================== " + ["删除空文件夹", "Deleting Empty Dirs"][lan] + " =====================")
+    for item in os.listdir(Working_Path):
+        tmp = Working_Path + item
+        
+        if os.path.isdir(tmp) and not (item in Ignore_dir):
+            Rmdirs_sub(tmp, lan)
+    Log.logger.info("\n========================= " + ["完成", "Finish"][lan] + " =========================\n\n")
 
-        if os.path.isdir(tmp): 
-            Log.logger.info("\n" + item + "\t")
-            if item == "__pycache__":
-                Log.logger.info(["将在命令行结束后自动删除", "Scheduled After CLI Ends"][lan])
-            else:
-                try:    os.removedirs(tmp)
-                except: Log.logger.info(["跳过", "pass"][lan]); pass
-                else:   Log.logger.info(["成功", "success"][lan])
+def Rmdirs_sub(dir, lan):
+    if os.listdir(dir):
+        for item in os.listdir(dir):
+            tmp = dir + "/" + item
 
-    
-    Log.logger.info("========================= " + ["完成", "Finish"][lan] + " =========================\n\n")
+            if os.path.isdir(tmp):
+                Rmdirs_sub(tmp, lan)            
+
+    try: 
+        os.chdir(Working_Path)
+        os.rmdir(dir)
+    except:
+        Log.logger.info("\n" + dir + [":\t忽略", ":\tpass"][lan])
+    else:
+        Log.logger.info("\n" + dir + [":\t成功", ":\tsuccess"][lan])
 
 
+# 准备结束 | Prepare to end
 def End(lan):
     Out.close()
     Log.logger.info("\n=========================================================")
@@ -498,15 +513,18 @@ def End(lan):
     Log.logger.info("=========================================================\n")
     Log.logger.info(["按任意键退出并打开输出文件...", "Press Any Key To Exit And Open Output File..."][lan])
     Read()
-    try: os.startfile(Path + Output)
+    try: os.startfile(Working_Path + Output)
     except: Log.logger.info(["输出文件打开失败，可能原因: 修改了输出文件名称", "Output file failed to open, possible reason: Output file name has been changed"][lan])
-    return  
+    return 0
 
 
-def Save():
-    config = open("config.json", "w", encoding='utf-8')
+# 保存配置文件 | Save config file
+def Save(lan):
+    config = open(Path + "config.json", "w", encoding='utf-8')
+    tmp = "zh_cn" if lan == 0 else "en_us"
 
     data =  { \
+'Language' : tmp, \
 'Output File' : Output, \
 'Archived Folder' : Archived, \
 'Archived Zip Folder' : Zip_Folder, \
@@ -523,12 +541,14 @@ def Save():
     config.close()
 
 
+# 读取配置文件 | Load config file
 def Load(lan):
     global Output, Archived, Zip_Folder, File_Folder, Keyword, Ignore_dir, Ignore_file, Ignore_content, RAR_Support
     
     try: 
         tmp = open("config.json", "r", encoding='utf-8')
         config = json.loads(tmp.readlines()[0])
+        tmp.close()
 
         Output = config['Output File']
         Archived = config['Archived Folder']
@@ -539,24 +559,21 @@ def Load(lan):
         Ignore_file = config['Ignore File']
         Ignore_content = config['Ignore Content']
         RAR_Support = config['RAR Support']
-
-        tmp.close()
-        Log.logger.info("\n------------------------- " +  ["成功", "Success"][lan] + " -------------------------\n")
-        Back(lan)
     
     except: 
         Log.logger.info("\n------------------------- " +  ["失败", "Failed"][lan] + " -------------------------\n")
         Back(lan)
 
 
-
+# 读取用户输入 | Read input from interface
 def Read():
     key = input()
-    if (key == "") or (key == " "):   Log.logger.info("INPUT: <Enter>") 
-    else:                         Log.logger.info("INPUT: " + key)
+    if (key == "") or (key == " "): Log.logger.debug("INPUT: <Enter>") 
+    else:                           Log.logger.debug("INPUT: " + key)
     return key
 
 
+# <快捷键> 返回 | <shortcut> Back
 def Back(lan):
     Log.logger.info(["> 按任意键来返回", "> Press Any Key To Go Back"][lan])
     key = input()
