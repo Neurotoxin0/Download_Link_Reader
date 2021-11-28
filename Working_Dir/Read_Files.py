@@ -10,7 +10,7 @@ Zip_Folder = "Zip_Files"                                # 处理过的压缩文�
 File_Folder = "Processed_Files"                         # 处理过的文件存放的文件夹名称 | Folder Name For Processed Files
 Keyword = ["ed2k://", "magnet:"]                        # 下载链接关键字 | keyword for download link
 Ignore_dir = ["Working_Dir", "Archived"]                # 忽略的文件夹 | ignore certain dirs
-Ignore_file = [Output]                                  # 忽略的文件 | ignore txt files with certain names
+Ignore_file = [Output, "Main.py"]                                  # 忽略的文件 | ignore txt files with certain names
 Ignore_content = []                                     # 忽略的内容 | ignore certain contents
 RAR_Support = False                                     # RAR 支持
 Debug = False                                           # Debug 模式
@@ -265,11 +265,15 @@ def CLI(lan):
 
         # 切换 RAR 支持 | Switch RAR Support
         elif cmd == "5":
-            if not RAR_Support: RAR_Support = True
+            if not RAR_Support: 
+                try: 
+                    import rarfile
+                    RAR_Support = True
+                except: Log.logger.info(["无法找到RAR支持，请尝试将支持模块至 python/scripts!", "Failed to import RAR support, Please try to install RAR module to python/scripts!"][lan])
+                
             else:               RAR_Support = False
 
             Log.logger.info("\n==================================================")
-            if RAR_Support: Log.logger.info(["请确保额外的RAR脚本已经被安装至 python/scripts!", "Please Make Sure Extra RAR Scripts have been install to python/scripts!"][lan] + "\n")
             Log.logger.info(["< RAR 支持选项已被切换 >", "< RAR Support Switched >"][lan])
             Log.logger.info("==================================================\n")
             Back(lan)
@@ -419,14 +423,15 @@ def Unzip(lan):
                 # RAR File
                 elif file.endswith('.rar'): 
                     if RAR_Support:
-                        import rarfile 
+                        try: import rarfile 
+                        except: Log.logger.info(["无法找到RAR支持，请尝试将支持模块至 python/scripts!", "Failed to import RAR support, Please try to install RAR module to python/scripts!"][lan])
                         tmp = rarfile.RarFile(file)
                     else: Log.logger.info(["RAR支持未开启", "RAR Support is set to False"][lan])
                 # GZ / 7z File
                 else:   Log.logger.info(["需要手动解压", "Manual Unzip Action Required"][lan])
             
                 try:  
-                    tmp.extractall()
+                    tmp.extractall(Working_Path)
                     tmp.close()
                 except: Log.logger.info(["失败", "Failed"][lan])
                 else:
@@ -442,22 +447,31 @@ def Process(lan):
     global File_Count
     if not os.path.exists(File_Dir): os.makedirs(File_Dir)
     
+    # 处理文件
     for root, dirs, files in os.walk(Working_Path):
 
         for file in files:
-            if any(key if key in root else False for key in Ignore_dir): continue
-            else: os.chdir(root)
-            
-            if file.endswith('.txt'):
+            if not(file.endswith('.txt')) or (file in Ignore_file) or ( any(key if key in root else False for key in Ignore_dir) ): continue
+            else: 
+                os.chdir(root)
                 Log.logger.info(["\n处理文件: ", "Processing File: "][lan] + file + "\n")
-                
-                if file in Ignore_file: Log.logger.info(["忽略", "Ignore"][lan] + "\n")
-                else:
-                    File_Count += 1
-                    Search(file)
-                    try: shutil.move(file, File_Dir)
-                    except: pass
+                File_Count += 1
+                Search(file)
                 Log.logger.info("--------------------------------------------------")
+
+    # 移动文件夹
+    for root, dirs, files in os.walk(Working_Path):
+        os.chdir(Working_Path)
+
+        for dir in dirs:
+            move = True
+            for ignore in Ignore_dir:
+                if ignore in dir : move = False
+
+            if move:
+                try: shutil.move(dir, File_Dir)
+                except: pass
+    
     Log.logger.info("========================= " + ["完成", "Finish"][lan] + " =========================\n\n")
 
 

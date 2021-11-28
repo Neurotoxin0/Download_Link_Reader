@@ -1,19 +1,14 @@
-# 待办:
-# Debug 信息
-# corrupted config
-# finished: 优化归档，Fix空文件夹驻留
 import os, sys, shutil, json
 
 
 Path = (os.path.split(os.path.realpath(__file__))[0] + "/").replace("\\\\", "/").replace("\\", "/")
 Language_Code = -1
 
-
 if __name__ == "__main__":
-    try:
-        os.chdir(Path)
-        sys.path.append('Working_Dir')
-        import Read_Files, Test
+    os.chdir(Path)
+    sys.path.append('Working_Dir')
+    
+    try: import Read_Files
     except:
         print("\n------------------------- Read_Files Module Missing -------------------------\n")
         print(" \
@@ -51,9 +46,10 @@ if __name__ == "__main__":
                     # ------------------------- TEST & DEBUG ONLY ------------------------
                     elif lan == "debug":
                         try:        
+                            import Test
                             Test.main()
                             shutil.rmtree("__pycache__")
-                        except:     print("\n------------------------- Debug Module Missing -------------------------\n")
+                        except:     print("\n------------------------- Debug Module Missing / Broken -------------------------\n")
                         else:       print("\n------------------------- Success -------------------------\n")
                         finally:    input("> 按任意键来返回 | Press Any Key To Go Back"); continue
                     # ------------------------- END -------------------------      
