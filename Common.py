@@ -28,14 +28,14 @@ log_path = Path + "Log/"
 if not os.path.exists(log_path): os.makedirs(log_path)
 Log = Logger(log_path + Time + ".log")
 
-# 读取config.json | Read from config.json
+# Read from config.json
 def Read_Config():
     try:
         config = open(Path + "config.json", "r", encoding='utf-8')
         return json.loads(config.readlines()[0])
     except: return None
 
-# 读取用户输入 | Read input from interface
+# Read input from interface
 def Read():
     option = input("> ").strip()
     if (option == ""): Log.logger.info("\nINPUT: <Enter>") 
@@ -43,7 +43,7 @@ def Read():
     Log.logger.info("\n--------------------------------------------------\n")
     return option
 
-# 返回信息 | Pop Message
+# Pop Message
 def Message(option, back, Language = -1):
     message = {
         1: ["无效选项", "Invalid Command", "无效选项 | Invalid Command"][Language],
@@ -55,7 +55,10 @@ def Message(option, back, Language = -1):
         7: ["无效名称", "Invalid Name"][Language],
         8: ["输入'y' 来确定删除", "Input 'y' To Confirm Deletion?"][Language],
         9: ["已删除, 将在下次启动时使用默认配置", "Deleted, Will Use Default Setting On Next Run"][Language],
-        10: ["取消删除", "Deletion Canceled"][Language]
+        10: ["取消删除", "Deletion Canceled"][Language],
+        11: ["配置已损坏！", "Bad Config File!"][Language],
+        12: ["关键字已存在! 输入新行数来修改, 或留空来返回", "Keyword Exist! Input New # Of Lines To Update, Or Input <SPACE> To Go Back"][Language],
+        13: ["请输入行数", "Please Input # Of Lines"][Language],
     }
     Log.logger.info(message[option])
     if back: Log.logger.info(["按任意键来返回", "Press Any Key To Go Back", "按任意键来返回 | Press Any Key To Go Back"][Language]); Read()
