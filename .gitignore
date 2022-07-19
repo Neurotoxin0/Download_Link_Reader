@@ -5,3 +5,4 @@ output.txt
 Archived/
 pyinstaller CMD.txt
 UI.spec
+build/
