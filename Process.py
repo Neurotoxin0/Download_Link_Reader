@@ -84,7 +84,8 @@ def Process(mode):
 
                 # move processed file
                 if not os.path.exists(Processed_File_Folder): os.makedirs(Processed_File_Folder)
-                shutil.move(filepath, Processed_File_Folder)
+                try: shutil.move(filepath, Processed_File_Folder)
+                except: shutil.move(filepath, Processed_File_Folder + file + "~1")
                 Log.logger.info("--------------------------------------------------")
         
 
@@ -98,7 +99,7 @@ def Process(mode):
 
             if move:
                 try: shutil.move(root + dir, Unprocessed_File_Folder)
-                except: shutil.move(root + dir, Unprocessed_File_Folder + "/~1")
+                except: shutil.move(root + dir, Unprocessed_File_Folder + dir +"~1")
                 
         break   # only iter the root dir
 
@@ -111,14 +112,23 @@ def Process(mode):
 def Write():
     Write_Line("\n===== Keyword =====\n")
     for link in Links[0]: Write_Line(link + "\n")
-    Write_Line("\nTotal Links Found: " + str(Link_Count[0]))
+    Write_Line("\nTotal Links Found Using Keyword: " + str(Link_Count[0]))
     Write_Line("\n====================\n")
     
     Write_Line("\n===== Pattern =====\n")
-    for link in Links[1]: Write_Line(link + "\n")
-    Write_Line("\nTotal Links Found: " + str(Link_Count[1]))
+    print(Links[1])
+    input()
+    for link in Links[1]: 
+        print("iter:" + link)
+        Write_Line(link + "\n")
+    Write_Line("\nTotal Links Found Using Pattern: " + str(Link_Count[1]))
     Write_Line("\n====================\n")
 
+    Write_Line("\nTotal Files Processed: " + str(File_Count) + "; Total Links Found: " + str(Link_Count[0] + Link_Count[1]))
+    Write_Line("\n====================\n")
+    Output.close()
+
 def Write_Line(string):
+    print("writeline: " + string)
     Log.logger.info(string)
     Output.writelines(string)
