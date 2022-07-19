@@ -2,3 +2,6 @@ __pycache__/
 Log/
 config.json
 output.txt
+Archived/
+pyinstaller CMD.txt
+UI.spec
