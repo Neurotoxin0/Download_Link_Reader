@@ -58,7 +58,7 @@ def Choose_Language():
         option = Read()
         if option not in ["1", "2", "3"]: Message(1, True)
         elif option == "1" or option == "2": Language = int(option) - 1; return 
-        else: exit() 
+        else: os._exit(0) 
 
 
 
@@ -196,8 +196,8 @@ def Alter_Pattern():
         os.system('cls')
         Log.logger.info(\
 "\n------------------------- " + ["修改下载链接特征", "Edit Patterns For Download Link"][Language] + " -------------------------\n\n" + \
-["当前下载链接特征: ", "Current Patterns For Download Link: "][Language] + str(Keyword) + "\n\n" + \
-    "1\t" + ["添加下载链接特征", "Add Pattern For Download Link"][Language] + "\n" + \
+["当前下载链接特征: ", "Current Patterns For Download Link: "][Language] + str(Pattern) + "\n\n" + \
+    "1\t" + ["添加/修改下载链接特征", "Add/Alter Pattern For Download Link"][Language] + "\n" + \
     "2\t" + ["移除下载链接特征", "Remove Pattern For Download Link"][Language] + "\n" + \
     "3\t" + ["返回主菜单", "Back To Main Menu"][Language] + "\n")
 
@@ -322,8 +322,8 @@ def End():
     Exit()
 
 def Exit():
-    try: shutil.rmtree(Path + "__pycache__"); exit()
-    except: exit()
+    try: shutil.rmtree(Path + "__pycache__"); os._exit(0)
+    except: os._exit(0)
 
 
 
