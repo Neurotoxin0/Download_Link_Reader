@@ -215,7 +215,7 @@ def Alter_Pattern():
 
                 Message(13, False, Language)
                 line = Read()
-                if line == "": continue
+                if line == "": Message(1, True, Language)
                 else:
                     try: line = int(line)
                     except: Message(1, True, Language); continue
