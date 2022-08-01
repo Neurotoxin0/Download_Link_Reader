@@ -1,4 +1,3 @@
-from typing import Pattern
 from Common import Log, Read_Config
 
 def Main(filepath):
@@ -33,7 +32,7 @@ def Main(filepath):
                     Ignore = any(key if key in content else False for key in Ignore_content)
                     if not Ignore: 
                         Log.logger.info(content)
-                        links.append(content)
+                        links.append(key + ": " + content)
                         count += 1
         index +=1
 
