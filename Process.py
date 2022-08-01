@@ -116,11 +116,7 @@ def Write():
     Write_Line("\n====================\n")
     
     Write_Line("\n===== Pattern =====\n")
-    print(Links[1])
-    input()
-    for link in Links[1]: 
-        print("iter:" + link)
-        Write_Line(link + "\n")
+    for link in Links[1]: Write_Line(link + "\n")
     Write_Line("\nTotal Links Found Using Pattern: " + str(Link_Count[1]))
     Write_Line("\n====================\n")
 
