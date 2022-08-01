@@ -23,5 +23,6 @@ def Main(filepath):
             Log.logger.info(line + "\n")
             links.append(line)
             count += 1
-    
+
+    links.append("")    # append line to seperate each file
     return links, count
