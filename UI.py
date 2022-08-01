@@ -1,9 +1,9 @@
 import json, os, shutil
 import Process
-from Common import Path, Log, Read_Config, Read, Message
+from Common import Path, Log, Read_Config, Read, Message, Exit
 
 
-Config, Language, Archived_Dir, Zip_Dir, File_Dir = None, None, None, None, None
+Config, Language = None, None
 # ========================= 默认配置 | Default Config =========================
 Output = "output.txt"                                   # 输出文件名称 | Output File's Name
 Archived = "Archived"                                   # 归档文件夹名称 | Archive Folder Name
@@ -20,7 +20,7 @@ Ignore_content = []                                     # 忽略的内容 | igno
 
 def Main():
     global  Config, Language, Output, Archived, Zip_Folder, File_Folder, Raw_Folder, \
-            Keyword, Pattern, Ignore_dir, Ignore_file, Ignore_content, Zip_Dir, File_Dir
+            Keyword, Pattern, Ignore_dir, Ignore_file, Ignore_content
     
     # Load cfg
     Config = Read_Config()
@@ -119,8 +119,12 @@ def Choose_Mode():
         elif option == "2": code =  Process.Main(1)
         else: code =  Process.Main(-1)
         if not code: Bad_Config()
-        else: End()
-
+        else: 
+            Log.logger.info(["按任意键退出并打开输出文件...", "Press Any Key To Exit And Open Output File..."][Language])
+            Read()
+            os.startfile(Path + Output)
+            Exit()
+    
 
 
 def Alter_Content(array):
@@ -312,18 +316,6 @@ def Del_Config_Action():
     except: 
         Log.logger.info("Exception On Deleting Config File!")
         return 0
-
-
-
-def End():
-    Log.logger.info(["按任意键退出并打开输出文件...", "Press Any Key To Exit And Open Output File..."][Language])
-    Read()
-    os.startfile(Path + Output)
-    Exit()
-
-def Exit():
-    try: shutil.rmtree(Path + "__pycache__"); os._exit(0)
-    except: os._exit(0)
 
 
 
