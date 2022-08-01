@@ -1,4 +1,4 @@
-import json, logging, os, sys, time
+import json, logging, os, shutil, sys, time
 from logging import handlers
 
 Path = (os.path.split(os.path.realpath(__file__))[0] + "/").replace("\\\\", "/").replace("\\", "/")
@@ -62,4 +62,9 @@ def Message(option, back, Language = -1):
     }
     Log.logger.info(message[option])
     if back: Log.logger.info(["按任意键来返回", "Press Any Key To Go Back", "按任意键来返回 | Press Any Key To Go Back"][Language]); Read()
-    
+
+# Exit Method
+def Exit(exit = True):
+    try: shutil.rmtree(Path + "__pycache__"); 
+    except: pass
+    if exit: os._exit(0)
