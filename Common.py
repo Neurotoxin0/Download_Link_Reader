@@ -1,8 +1,8 @@
 import json, logging, os, shutil, sys, time
 from logging import handlers
 
-Path = (os.path.split(os.path.realpath(__file__))[0] + "/").replace("\\\\", "/").replace("\\", "/")
-#Path = (os.path.dirname(os.path.realpath(sys.executable)) + "/").replace("\\\\", "/").replace("\\", "/")
+#Path = (os.path.split(os.path.realpath(__file__))[0] + "/").replace("\\\\", "/").replace("\\", "/")
+Path = (os.path.dirname(os.path.realpath(sys.executable)) + "/").replace("\\\\", "/").replace("\\", "/")
 Time = time.strftime("%Y.%m.%d@%H_%M_%S", time.localtime()) 
 
 # Logger
