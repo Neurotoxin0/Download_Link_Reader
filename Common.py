@@ -24,6 +24,13 @@ class Logger(object):
         LOG.setFormatter(format)
         self.logger.addHandler(LOG)
 
+# Message Response
+class Link(object):
+    def __init__(self, type):
+        self.type = type
+        self.link = []
+        self.count = 0
+
 log_path = Path + "Log/"
 if not os.path.exists(log_path): os.makedirs(log_path)
 Log = Logger(log_path + Time + ".log")
