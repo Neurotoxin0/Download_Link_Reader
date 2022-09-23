@@ -125,6 +125,5 @@ def Write():
     Output.close()
 
 def Write_Line(string):
-    print("writeline: " + string)
     Log.logger.info(string)
     Output.writelines(string)
