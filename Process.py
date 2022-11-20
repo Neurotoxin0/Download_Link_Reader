@@ -4,7 +4,7 @@ from Common import Path, Log, Time, Read_Config
 
 
 Language, Output, Archived, Zip_Folder, File_Folder, Raw_Folder, Ignore_dir, Ignore_file, Ignore_content = None, None, None, None, None, None, None, None, None
-Archived_Dir, Zip_Folder, Processed_File_Folder, Unprocessed_File_Folder, File_Count, Link_Count, Links = None, None, None, None, 0, [0,0], [[], []]
+Archived_Dir, Zip_Folder, Processed_File_Folder, Unprocessed_File_Folder, File_Count, Link_Count, Links = None, None, None, None, 0, [0,0], [[], {}]
 
 
 def Main(mode):
@@ -65,7 +65,7 @@ def Process(mode):
                 elif mode == 1: # Pattern
                     if not count == -1:
                         links, count = Pattern.Main(filepath)
-                        Links[1] += links
+                        Merge_Dic(Links[1], links)
                         Link_Count[1] += count
                     else: return 0
                 
@@ -78,7 +78,7 @@ def Process(mode):
 
                     if not count == -1:
                         links, count = Pattern.Main(filepath)
-                        Links[1] += links
+                        Merge_Dic(Links[1], links)
                         Link_Count[1] += count
                     else: return 0
 
@@ -107,6 +107,13 @@ def Process(mode):
     Write()
     return 1
 
+def Merge_Dic(Main_Dic, Dic1):
+    for key in Dic1:
+        if not Main_Dic.get(key): Main_Dic[key] = Dic1[key]
+        else: 
+            tmp = Main_Dic[key] + Dic1[key]
+            Main_Dic[key] = tmp
+
 
 
 def Write():
@@ -116,7 +123,11 @@ def Write():
     Write_Line("\n====================\n")
     
     Write_Line("\n===== Pattern =====\n")
-    for link in Links[1]: Write_Line(link + "\n")
+    for pattern in Links[1]: 
+        Write_Line(pattern + "\n")
+        links = Links[1][pattern]
+        for link in links: Write_Line(link + "\n")
+        Write_Line("\n")
     Write_Line("\nTotal Links Found Using Pattern: " + str(Link_Count[1]))
     Write_Line("\n====================\n")
 

@@ -200,6 +200,7 @@ def Alter_Pattern():
         os.system('cls')
         Log.logger.info(\
 "\n------------------------- " + ["修改下载链接特征", "Edit Patterns For Download Link"][Language] + " -------------------------\n\n" + \
+["程序在匹配到下载特征后会后面的所有 行 记录为链接, 直到遇到一行空行: ", "The program will record every line after a pattern was matched, until an empty line was encoutered"][Language] + "\n\n" + \
 ["当前下载链接特征: ", "Current Patterns For Download Link: "][Language] + str(Pattern) + "\n\n" + \
     "1\t" + ["添加/修改下载链接特征", "Add/Alter Pattern For Download Link"][Language] + "\n" + \
     "2\t" + ["移除下载链接特征", "Remove Pattern For Download Link"][Language] + "\n" + \

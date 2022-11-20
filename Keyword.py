@@ -16,9 +16,9 @@ def Main(filepath):
     file = open(filepath, "r", encoding='utf-8')
     for line in file.readlines():
         link = any(key if key in line else False for key in Keyword)
-        Ignore = any(key if key in line else False for key in Ignore_content)
+        ignore = any(key if key in line else False for key in Ignore_content)
 
-        if link and not Ignore:
+        if link and not ignore:
             line = line.strip("\n")
             Log.logger.info(line + "\n")
             links.append(line)
