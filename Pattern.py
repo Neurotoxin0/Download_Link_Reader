@@ -35,6 +35,7 @@ def Main(filepath):
                 line_num = (index + 1) + pattern_value  # start from (pattern's next line) + (ignore line)
 
                 while True:
+                    if line_num >= len(lines): break;
                     content = lines[line_num].strip("\n")
                     if content == "": break
                     
