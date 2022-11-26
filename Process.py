@@ -63,8 +63,8 @@ def Process(mode):
                     else: return 0
                 
                 elif mode == 1: # Pattern
+                    links, count = Pattern.Main(filepath)
                     if not count == -1:
-                        links, count = Pattern.Main(filepath)
                         Merge_Dic(Links[1], links)
                         Link_Count[1] += count
                     else: return 0
@@ -76,8 +76,10 @@ def Process(mode):
                         Link_Count[0] += count
                     else: return 0
 
+                    Log.logger.info("----- " + ["关键字与特征的分隔", "Seperate Line between Keyword and Pattern mode"][Language] + " -----")
+
+                    links, count = Pattern.Main(filepath)
                     if not count == -1:
-                        links, count = Pattern.Main(filepath)
                         Merge_Dic(Links[1], links)
                         Link_Count[1] += count
                     else: return 0
@@ -99,7 +101,7 @@ def Process(mode):
 
             if move:
                 try: shutil.move(root + dir, Unprocessed_File_Folder)
-                except: shutil.move(root + dir, Unprocessed_File_Folder + dir +"~1")
+                except: shutil.move(root + dir, Unprocessed_File_Folder + dir + "~1")
                 
         break   # only iter the root dir
 
@@ -119,19 +121,19 @@ def Merge_Dic(Main_Dic, Dic1):
 def Write():
     Write_Line("\n===== Keyword =====\n")
     for link in Links[0]: Write_Line(link + "\n")
-    Write_Line("\nTotal Links Found Using Keyword: " + str(Link_Count[0]))
+    Write_Line(f"\nTotal Links Found Using Keyword: {str(Link_Count[0])}")
     Write_Line("\n====================\n")
     
     Write_Line("\n===== Pattern =====\n")
     for pattern in Links[1]: 
-        Write_Line(pattern + "\n")
         links = Links[1][pattern]
+        Write_Line(f"\'{pattern}\': {len(links)}\n")
         for link in links: Write_Line(link + "\n")
         Write_Line("\n")
-    Write_Line("\nTotal Links Found Using Pattern: " + str(Link_Count[1]))
+    Write_Line(f"\nTotal Links Found Using Pattern: {str(Link_Count[1])}")
     Write_Line("\n====================\n")
 
-    Write_Line("\nTotal Files Processed: " + str(File_Count) + "; Total Links Found: " + str(Link_Count[0] + Link_Count[1]))
+    Write_Line(f"\nTotal Files Processed: {str(File_Count)}; Total Links Found: {str(Link_Count[0] + Link_Count[1])}")
     Write_Line("\n====================\n")
     Output.close()
 

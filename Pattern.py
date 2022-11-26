@@ -41,7 +41,7 @@ def Main(filepath):
                     
                     ignore = any(key if key in content else False for key in Ignore_content)
                     if not ignore: 
-                        Log.logger.info(content + "\n")
+                        Log.logger.info(f"\'{pattern}\': {content} + \n")
                         if not links.get(pattern): links[pattern] = [content]
                         else: 
                             tmp = links[pattern]
